@@ -29,17 +29,17 @@
                                 {% set total = total + file.price %}
                                 <h4 class="card-title">{{ file.name }}</h4>
                                 <p class="card-text d-flex"><span>Quantité: 1</span><span
-                                        class="ml-auto">Prix: {{ file.price }}</span></p>
+                                        class="ml-auto">Prix: {{ file.price }}€</span></p>
                                 <div class="dropdown-divider"></div>
-                                <h4 class="card-title d-flex h2">
-                                    <span>
-                                        Total
-                                    </span>
-                                            <span class="ml-auto">
-                                        {{ total }}
-                                    </span>
-                                </h4>
                             {% endfor %}
+                            <h4 class="card-title d-flex h2">
+                                <span>
+                                    Total
+                                </span>
+                                <span class="ml-auto">
+                                    {{ total }}€
+                                </span>
+                            </h4>
                         {% else %}
                             <div class="alert alert-warning m-0 text-center">
                                 <span class="h3">Vous n'avez pas sélectionné de fichier à acheter</span>
