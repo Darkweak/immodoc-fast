@@ -1,0 +1,27 @@
+clearBasket:
+    path: /payment/clear
+    methods: [GET]
+    controller: App\Controller\Files::paymentFile_clear
+
+fileList:
+    path: /files
+    methods: [GET]
+    controller: App\Controller\Files::listFiles
+
+payment_get:
+    path: /payment
+    methods: [GET]
+    controller: App\Controller\Files::paymentFile_get
+
+payment_post:
+    path: /payment
+    methods: [POST]
+    controller: App\Controller\Files::paymentFile_post
+
+welcome:
+    path: /
+    controller: App\Controller\Welcome
+
+generate:
+    path: /generate
+    controller: App\Controller\Welcome::generate

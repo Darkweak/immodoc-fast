@@ -1,0 +1,93 @@
+{% set path = 'welcome' == app.request.attributes.get('_route') %}
+{% set getSelectedFiles = 'Récupérer les fichiers sélectionnés' %}
+<div class="pt-5 container">
+    <form action="{{ url('payment_post') }}" id="filesForm" method="post">
+        <div class="table-responsive">
+            <table class="table table-hover shadow">
+                <thead class="text-light {% if path %}table-active{% else %}table-success{% endif %}">
+                <tr>
+                    {% if selectable is defined and true == selectable %}
+                        <th>Sélectionner</th>
+                    {% endif %}
+                    <th class="text-nowrap">Nom du fichier</th>
+                    <th class="text-nowrap">Description du fichier</th>
+                    <th class="text-right">Prix</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for file in files %}
+                    <tr class="table-light">
+                        {% if selectable is defined and true == selectable %}
+                            {% set selected = false %}
+                            {% for file_selected in files_selected if not selected %}
+                                {% set selected = file.name == file_selected.name %}
+                            {% endfor %}
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input
+                                        {% if selected %}checked{% endif %}
+                                        type="checkbox"
+                                        name="{{ files_name_attribute }}[{{ file.name }}]"
+                                        class="custom-control-input"
+                                        id="file-{{ loop.index }}-{{ file.name }}"/>
+                                    <label class="custom-control-label checkbox-lg"
+                                           for="file-{{ loop.index }}-{{ file.name }}"></label>
+                                </div>
+                            </td>
+                        {% endif %}
+                        <td>{{ file.name }}</td>
+                        <td>{{ file.description }}</td>
+                        <td class="text-right">{{ file.price }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            <button type="submit" id="getFiles" class="btn btn-lg btn-success rounded">{{ getSelectedFiles }}</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    let countSelected = {{ files_selected|length }};
+    let validate = '{{ getSelectedFiles }}';
+    const filesForm = document.getElementById('filesForm');
+    {% if path %}
+    const goToList = 'Accéder à la liste';
+    {% endif %}
+
+    const getFiles = document.getElementById('getFiles');
+    flipFormAttributes(countSelected > 0);
+
+    filesForm.addEventListener('change', event => {
+        if (event.target.checked) {
+            countSelected++;
+            flipFormAttributes(true);
+        } else {
+            countSelected--;
+            if (!countSelected) {
+                flipFormAttributes(false);
+            }
+        }
+    });
+
+    function flipFormAttributes(isPost) {
+        if (isPost) {
+            filesForm.setAttribute('action', '{{ url('payment_post') }}');
+            filesForm.setAttribute('method', 'post');
+            getFiles.innerText = validate;
+            getFiles.removeAttribute('disabled');
+            getFiles.classList.remove('disabled');
+        } else {
+            {% if path %}
+            getFiles.innerText = goToList;
+            filesForm.setAttribute('action', '{{ url('fileList') }}');
+            filesForm.setAttribute('method', 'get');
+            {% else %}
+            getFiles.classList.add('disabled');
+            getFiles.setAttribute('disabled', 'true');
+            {% endif %}
+        }
+    }
+</script>

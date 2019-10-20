@@ -1,0 +1,40 @@
+{% set navlinks = [
+    {
+        path: 'welcome',
+        route: 'welcome',
+        strict: true,
+        text: 'Accueil',
+    },
+    {
+        path: 'file',
+        route: 'fileList',
+        text: 'Les fichiers',
+    },
+    {
+        path: 'payment',
+        route: 'payment_get',
+        text: 'Panier',
+    },
+] %}
+
+<nav class="navbar navbar-expand-md navbar-light bg-light py-2 sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href={{ url('welcome') }}>{{ app_name }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#immoNavbar" aria-controls="n"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        {% set path = app.request.attributes.get('_route') %}
+        <div class="collapse navbar-collapse" id="immoNavbar">
+            <ul class="navbar-nav ml-auto">
+                {% for navlink in navlinks %}
+                    <li class="nav-item d-flex">
+                        <a class="nav-link {% if (navlink.strict is defined and true == navlink.strict and path == navlink.path) or (navlink.strict is not defined and navlink.path in path) %}active{% endif %}"
+                           href={{ url(navlink.route) }}>{{ navlink.text }}</a>
+                        {% if navlinks[loop.index] is defined %}<span class="nav-link-divider bg-primary-50 my-auto"></span>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>

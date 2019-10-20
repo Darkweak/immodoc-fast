@@ -1,0 +1,9 @@
+api_platform:
+    title: Hello API Platform
+    version: 1.0.0
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    enable_docs: false
+    enable_entrypoint: false
+    enable_re_doc: false
+    enable_swagger_ui: false

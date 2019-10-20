@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% set total = 0.00 %}
+
+{% block content %}
+    <div class="container py-5">
+        <div class="row m-0">
+            <div class="col-md-4 order-1 order-md-2">
+                {% if files|length %}
+                    <div class="card border-success p-3">
+                        <div class="alert alert-success text-center m-0 d-none" id="successPayment">
+                            <p class="m-0">Votre paiement a été validé</p>
+                            <p class="m-0">Vous allez recevoir les fichiers par email</p>
+                        </div>
+                        <div class="alert alert-danger text-center m-0 d-none" id="errorPayment">Veuillez vérifier les
+                            informations
+                        </div>
+                        <div id="paymentFormContainer">
+                            {% include '/Components/Forms/_stripe.html.twig' %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-8 order-2 order-md-1">
+                <div class="card bg-light">
+                    <div class="card-header">Récapitulatif de votre panier <i class="fas fa-shopping-cart"></i></div>
+                    <div class="card-body">
+                        {% if files|length %}
+                            {% for file in files %}
+                                {% set total = total + file.price %}
+                                <h4 class="card-title">{{ file.name }}</h4>
+                                <p class="card-text d-flex"><span>Quantité: 1</span><span
+                                        class="ml-auto">Prix: {{ file.price }}</span></p>
+                                <div class="dropdown-divider"></div>
+                                <h4 class="card-title d-flex h2">
+                                    <span>
+                                        Total
+                                    </span>
+                                            <span class="ml-auto">
+                                        {{ total }}
+                                    </span>
+                                </h4>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-warning m-0 text-center">
+                                <span class="h3">Vous n'avez pas sélectionné de fichier à acheter</span>
+                            </div>
+                            <div class="pt-2 text-center">
+                                <a href="{{ url('fileList') }}">
+                                    <button class="btn btn-lg btn-success rounded mr-3 mt-3" data-secret="{{ intent_secret }}">
+                                        <i class="fas fa-arrow-right"></i> Accéder à la liste des fichiers
+                                    </button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if files|length %}
+                    <div class="row m-0">
+                        <a href="{{ url('fileList') }}">
+                            <button class="btn btn-success rounded mr-3 mt-3" data-secret="{{ intent_secret }}">
+                                <i class="fas fa-arrow-right"></i> Continuer les achats
+                            </button>
+                        </a>
+                        <a href="{{ url('clearBasket') }}">
+                            <button class="btn btn-danger rounded mt-3" data-secret="{{ intent_secret }}">
+                                <i class="far fa-trash-alt"></i> Vider le panier
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+<script type = "text/javascript">
+const stripe = Stripe('pk_test_e9mRp9ZwauNVMtMsHmguiM1W');
+const formFields = document.getElementsByClassName('form-control');
+
+let elements = stripe.elements();
+let cardElement = elements.create('card');
+cardElement.mount('#card-element');
+let cardholderName = document.getElementById('cardholder-name');
+let cardButton = document.getElementById('card-button');
+let clientSecret = cardButton.dataset.secret;
+
+cardButton.addEventListener('click', function () {
+    for (let i = 0; i < formFields.length; i++) {
+      formFields[i].classList.add('disabled');
+      formFields[i].setAttribute('disabled', true);
+    }
+    const email = document.getElementById('email').value;
+    console.log(email);
+    stripe.handleCardPayment(
+        clientSecret, cardElement, {
+            payment_method_data: {
+                billing_details: {name: cardholderName.value}
+            }
+        }
+    ).then(function (result) {
+        for (let i = 0; i < formFields.length; i++) {
+            formFields[i].removeAttribute('disabled');
+            formFields[i].classList.remove('disabled');
+        }
+        const successPayment = document.getElementById('successPayment');
+        const errorPayment = document.getElementById('errorPayment');
+        if (result.error) {
+            successPayment.classList.add('d-none');
+            errorPayment.classList.remove('d-none');
+        } else {
+            successPayment.classList.remove('d-none');
+            errorPayment.classList.add('d-none');
+            document.getElementById('paymentFormContainer').classList.add('d-none');
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,125 @@
+:root {
+    --primary-color: #02B875;
+    --primary-50-color: #02925d;
+}
+
+* {
+    font-family: "Roboto", sans-serif;
+    font-weight: lighter !important;
+}
+
+.navbar {
+    font-size: 2rem !important;
+    border-bottom: 4px solid var(--primary-50-color) !important;
+}
+
+.checkbox-lg::after,
+.checkbox-lg::before {
+    height: 25px;
+    width: 25px;
+    top: 0;
+    left: 0;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.primary, .nav-link, .navbar-brand {
+    color: var(--primary-color) !important;
+}
+
+.primary-50, .active, .nav-link:hover {
+    color: var(--primary-50-color) !important;
+}
+
+.nav-link-divider {
+    width: 1px;
+    height: 60%;
+}
+
+.bg-primary-50 {
+    background-color: var(--primary-50-color) !important;
+}
+
+.primary-outline {
+    -webkit-text-stroke: 2px var(--primary-color);
+}
+
+.black-outline {
+    -webkit-text-stroke: 1px rgba(15,15,15,0.3);
+}
+
+.navbar-brand {
+    font-size: 2rem;
+}
+
+#background-banner {
+    min-height: 50vh;
+    background-position: center;
+    background-size: cover;
+}
+
+#background-banner {
+    min-height: 50vh;
+    background-position: center;
+    background-size: cover;
+}
+
+#header-layout > h1 {
+    font-weight: 900 !important;
+}
+
+#header-layout > h2 {
+    font-weight: 500 !important;
+}
+
+footer > .container {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.footer-c {
+    background-color: rgba(24,24,33,0.3) !important;
+    font-size: 1.2rem;
+}
+
+.logos-footer {
+    font-size: 2.3rem;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.scrollToTop {
+    bottom: 50px;
+    border-radius: 5px 0 0 5px;
+    right: 0;
+    width: 50px;
+    height: 50px;
+}
+
+.transition {
+    transition: 0.25s all ease-in-out;
+}
+
+.scrollToTop:hover {
+    background-color: rgb(26, 36, 47);
+}
+
+.mw-10 {
+    width: 10% !important;
+}
+
+.mw-20 {
+    width: 20% !important;
+}
+
+.mw-30 {
+    width: 30% !important;
+}
+
+.mw-40 {
+    width: 40% !important;
+}
