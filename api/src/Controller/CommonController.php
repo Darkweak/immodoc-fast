@@ -39,6 +39,7 @@ class CommonController
                     [
                         'app_name' => getenv('APP_NAME'),
                         'background_image' => $template,
+                        'number_selected_files' => \count($this->session->get(Files::FIELD_NAME_FILES) ?? [])
                     ],
                     $options
                 )

@@ -1,23 +1,63 @@
-<form class="w-100">
-    <div class="form-row">
-        <div class="form-group col-12 col-md-6">
-            <label for="lastname" class="col-form-label col-form-label-lg">Nom</label>
-            <input type="text" class="form-control form-control-lg" id="lastname" placeholder="Doe" required>
-        </div>
-        <div class="form-group col-12 col-md-6">
-            <label for="firstname" class="col-form-label col-form-label-lg">Prénom</label>
-            <input type="text" class="form-control form-control-lg" id="firstname" placeholder="John" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="email" class="col-12 col-form-label col-form-label-lg">Email</label>
-        <input type="email" class="form-control form-control-lg" id="email" placeholder="votre@email.com" required>
-    </div>
-    <div class="form-group">
-        <label for="message" class="col-12 col-form-label col-form-label-lg">Message</label>
-        <textarea class="form-control form-control-lg" id="message" placeholder="Un mot doux, une question, exprimez-vous ici..." required></textarea>
-    </div>
-    <div class="form-group text-center">
-        <button type="submit" class="btn btn-lg btn-success rounded">Envoyer <i class="far fa-paper-plane"></i></button>
+{% set inputs = [
+    {
+        classname: 'col-md-6',
+        name: 'lastname',
+        placeholder: 'Doe',
+        text: 'Nom',
+    },
+    {
+        classname: 'col-md-6',
+        name: 'firstname',
+        placeholder: 'John',
+        text: 'Prénom',
+    },
+    {
+        name: 'email',
+        placeholder: 'votre@email.com',
+        text: 'Email',
+        type: 'email',
+    },
+    {
+        field: 'textarea',
+        name: 'message',
+        placeholder: 'Un mot doux, une question, exprimez-vous ici...',
+        text: 'Message',
+    },
+] %}
+
+<div class="alert alert-success w-100 d-none" id="success_contact">
+    <h3 class="text-center">
+        Votre message a bien été envoyé, nous vous répondrons dans les plus bref délais
+    </h3>
+</div>
+<form class="w-100 form-row" id="contactForm" onsubmit="sendemail(event)">
+    {% for item in inputs %}
+        {% include '/Components/Forms/_common/_group.html.twig' %}
+    {% endfor %}
+    <div class="form-group col-12 text-center">
+        <button type="submit" class="btn btn-lg btn-success rounded" id="contact_submit">Envoyer <i class="far fa-paper-plane"></i></button>
     </div>
 </form>
+
+<script>
+    function sendemail(event) {
+        event.preventDefault();
+        document.getElementById('contact_submit').classList.add('disabled');
+        document.getElementById('contact_submit').setAttribute('disabled', true);
+
+        let body = {};
+        $('#contactForm').serializeArray().forEach(elt => body[elt.name] = elt.value);
+        fetch(
+            '/contact/send',
+            {
+                method: "POST",
+                body: JSON.stringify(body)
+            }
+        ).then(_ => {
+            document.getElementById('contact_submit').classList.remove('disabled');
+            document.getElementById('contact_submit').removeAttribute('disabled');
+            document.getElementById('contactForm').classList.add('d-none');
+            document.getElementById('success_contact').classList.remove('d-none');
+        }).catch(_ => console.log('Error'));
+    }
+</script>

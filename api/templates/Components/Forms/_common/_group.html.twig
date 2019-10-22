@@ -1,0 +1,8 @@
+<div class="form-group col-12{% if item.classname is defined %} {{ item.classname }}{% endif %}">
+    <label for="{{ item.name }}" class="col-form-label{% if isNotLG is not defined or false == isNotLG %} col-form-label-lg{% endif %}">{{ item.text }}</label>
+    {% if item.field is defined and 'textarea' == item.field %}
+        <textarea name="{{ item.name }}" class="form-control{% if isNotLG is not defined or false == isNotLG %} form-control-lg{% endif %}" id="{{ item.name }}" placeholder="{{ item.placeholder|default(item.text) }}" required></textarea>
+    {% else %}
+        <input name="{{ item.name }}" type="{{ item.type|default('text') }}" class="form-control{% if isNotLG is not defined or false == isNotLG %} form-control-lg{% endif %}" id="{{ item.name }}" placeholder="{{ item.placeholder|default(item.text) }}" required>
+    {% endif %}
+</div>

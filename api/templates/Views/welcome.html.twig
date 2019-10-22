@@ -21,7 +21,7 @@
             <div class="col-12 primary-50 text-center d-flex">
                 <h1 class="display-4 m-auto">
                     Le service {{ app_name }}
-                    <div class="dropdown-divider m-0 primary-50"></div>
+                    <div class="dropdown-divider m-0"></div>
                 </h1>
             </div>
             {% for card in cards %}
@@ -52,7 +52,9 @@
         {% set selectable = true %}
         {% include '/Components/Views/File.html.twig' %}
     </div>
-    <div class="container py-5">
-        {% include '/Components/Views/Contact.html.twig' %}
+    <div class="bg-light">
+        <div class="container py-5">
+            {% include '/Components/Views/Contact.html.twig' %}
+        </div>
     </div>
 {% endblock %}

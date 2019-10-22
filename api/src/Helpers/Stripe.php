@@ -4,20 +4,19 @@
 namespace App\Helpers;
 
 
+use App\Entity\File;
 use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class Stripe
 {
-    private const STRIPE_INTENT_KEY = 'stripe_intent';
-
     private $intent;
     private $session;
 
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
-        \Stripe\Stripe::setApiKey('sk_test_tRFqRHn3UjWXEksK1mUrL5PS');
+        \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
     }
 
     public function getIntent(): PaymentIntent
@@ -25,23 +24,23 @@ class Stripe
         return $this->intent;
     }
 
-    public function retrieveIntent(): PaymentIntent
+    public function generateIntent(array $files): PaymentIntent
     {
-        if (null !== $this->intent) {
-            return $this->intent;
-        } else if ($this->session->has(self::STRIPE_INTENT_KEY)) {
-            $this->intent = $this->session->get(self::STRIPE_INTENT_KEY);
-            return $this->session->get(self::STRIPE_INTENT_KEY);
-        } else {
-            try {
-                $this->intent = PaymentIntent::create([
-                    'amount' => 1099,
-                    'currency' => 'eur',
-                ]);
-                return $this->intent;
-            } catch (\Exception $e) {
-                return null;
+        try {
+            $amount = 0;
+
+            /** @var File $file */
+            foreach ($files as $file) {
+                $amount += $file->getPrice();
             }
+
+            $this->intent = PaymentIntent::create([
+                'amount' => $amount * 100,
+                'currency' => 'eur',
+            ]);
+            return $this->intent;
+        } catch (\Exception $e) {
+            return null;
         }
     }
 }

@@ -46,7 +46,7 @@
                             </div>
                             <div class="pt-2 text-center">
                                 <a href="{{ url('fileList') }}">
-                                    <button class="btn btn-lg btn-success rounded mr-3 mt-3" data-secret="{{ intent_secret }}">
+                                    <button class="btn btn-lg btn-success rounded mr-3 mt-3">
                                         <i class="fas fa-arrow-right"></i> Accéder à la liste des fichiers
                                     </button>
                                 </a>
@@ -57,12 +57,12 @@
                 {% if files|length %}
                     <div class="row m-0">
                         <a href="{{ url('fileList') }}">
-                            <button class="btn btn-success rounded mr-3 mt-3" data-secret="{{ intent_secret }}">
+                            <button class="btn btn-success rounded mr-3 mt-3">
                                 <i class="fas fa-arrow-right"></i> Continuer les achats
                             </button>
                         </a>
                         <a href="{{ url('clearBasket') }}">
-                            <button class="btn btn-danger rounded mt-3" data-secret="{{ intent_secret }}">
+                            <button class="btn btn-danger rounded mt-3">
                                 <i class="far fa-trash-alt"></i> Vider le panier
                             </button>
                         </a>
@@ -74,43 +74,46 @@
 {% endblock %}
 {% block javascript %}
 <script type = "text/javascript">
-const stripe = Stripe('pk_test_e9mRp9ZwauNVMtMsHmguiM1W');
-const formFields = document.getElementsByClassName('form-control');
+const stripe = Stripe('{{ public_key_stripe }}');
 
 let elements = stripe.elements();
 let cardElement = elements.create('card');
+const baseText = 'Valider le paiement';
+const verificationText = 'Vérification en cours';
 cardElement.mount('#card-element');
 let cardholderName = document.getElementById('cardholder-name');
 let cardButton = document.getElementById('card-button');
 let clientSecret = cardButton.dataset.secret;
 
 cardButton.addEventListener('click', function () {
-    for (let i = 0; i < formFields.length; i++) {
-      formFields[i].classList.add('disabled');
-      formFields[i].setAttribute('disabled', true);
-    }
+    cardButton.classList.add('disabled');
+    cardButton.setAttribute('disabled', true);
+    cardButton.innerText(verificationText);
     const email = document.getElementById('email').value;
-    console.log(email);
     stripe.handleCardPayment(
         clientSecret, cardElement, {
             payment_method_data: {
                 billing_details: {name: cardholderName.value}
             }
         }
-    ).then(function (result) {
+    ).then(function (response) {
+        cardButton.classList.remove('disabled');
+        cardButton.removeAttribute('disabled');
+        cardButton.innerText(baseText);
         for (let i = 0; i < formFields.length; i++) {
             formFields[i].removeAttribute('disabled');
             formFields[i].classList.remove('disabled');
         }
         const successPayment = document.getElementById('successPayment');
         const errorPayment = document.getElementById('errorPayment');
-        if (result.error) {
-            successPayment.classList.add('d-none');
-            errorPayment.classList.remove('d-none');
-        } else {
+
+        if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
             successPayment.classList.remove('d-none');
             errorPayment.classList.add('d-none');
             document.getElementById('paymentFormContainer').classList.add('d-none');
+        } else {
+            successPayment.classList.add('d-none');
+            errorPayment.classList.remove('d-none');
         }
     });
 });

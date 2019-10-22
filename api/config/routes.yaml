@@ -3,6 +3,16 @@ clearBasket:
     methods: [GET]
     controller: App\Controller\Files::paymentFile_clear
 
+contact:
+    path: /contact
+    methods: [GET]
+    controller: App\Controller\Contact
+
+contactAction:
+    path: /contact/send
+    methods: [POST]
+    controller: App\Action\Contact
+
 fileList:
     path: /files
     methods: [GET]

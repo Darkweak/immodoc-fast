@@ -1,12 +1,11 @@
 <div id="background-banner"
-     class="text-center primary d-flex"
-     style="background-image: url('{{ asset('/assets/images/' ~ background_image ~ '.png') }}')">
+     class="text-center primary-50 bg-light d-flex">
     <div class="align-middle d-flex w-100">
         <div id="header-layout" class="align-self-center w-100">
-            <h1 class="display-4 black-outline">
+            <h1 class="display-4">
                 {{ background_title|default(background_image) }}
             </h1>
-            <h2 class="h2-responsive primary-50">
+            <h2 class="h2-responsive">
                 {{ background_description|default(background_image) }}
             </h2>
         </div>

@@ -1,10 +1,10 @@
 {% set path = 'welcome' == app.request.attributes.get('_route') %}
-{% set getSelectedFiles = 'Récupérer les fichiers sélectionnés' %}
+{% set getSelectedFiles = 'Récupérer les ' ~ number_selected_files ~ ' fichiers sélectionnés' %}
 <div class="pt-5 container">
     <form action="{{ url('payment_post') }}" id="filesForm" method="post">
         <div class="table-responsive">
             <table class="table table-hover shadow">
-                <thead class="text-light {% if path %}table-active{% else %}table-success{% endif %}">
+                <thead class="text-light {% if path %}table-active{% else %}bg-primary-50{% endif %}">
                 <tr>
                     {% if selectable is defined and true == selectable %}
                         <th>Sélectionner</th>
@@ -28,9 +28,9 @@
                                         {% if selected %}checked{% endif %}
                                         type="checkbox"
                                         name="{{ files_name_attribute }}[{{ file.name }}]"
-                                        class="custom-control-input"
+                                        class="custom-control-input pointer"
                                         id="file-{{ loop.index }}-{{ file.name }}"/>
-                                    <label class="custom-control-label checkbox-lg"
+                                    <label class="custom-control-label checkbox-lg pointer"
                                            for="file-{{ loop.index }}-{{ file.name }}"></label>
                                 </div>
                             </td>
@@ -50,33 +50,38 @@
 </div>
 
 <script type="text/javascript">
-    let countSelected = {{ files_selected|length }};
-    let validate = '{{ getSelectedFiles }}';
+    let countSelected = {{ number_selected_files }};
+    let validateOne = 'Récupérer le fichier sélectionné';
+    let validateMulti = 'Récupérer les %s fichiers sélectionnés';
     const filesForm = document.getElementById('filesForm');
+    const filesCount = document.getElementById('navbarFilesCounter');
     {% if path %}
     const goToList = 'Accéder à la liste';
     {% endif %}
 
     const getFiles = document.getElementById('getFiles');
-    flipFormAttributes(countSelected > 0);
+    flipFormAttributes(countSelected > 0, countSelected);
 
     filesForm.addEventListener('change', event => {
         if (event.target.checked) {
             countSelected++;
-            flipFormAttributes(true);
+            flipFormAttributes(true, countSelected);
         } else {
             countSelected--;
-            if (!countSelected) {
-                flipFormAttributes(false);
-            }
+            flipFormAttributes(countSelected > 0, countSelected);
         }
+        filesCount.innerText = countSelected;
     });
 
-    function flipFormAttributes(isPost) {
+    function sprintf(value, replacement) {
+        return value.replace('%s', replacement);
+    }
+
+    function flipFormAttributes(isPost, count) {
         if (isPost) {
             filesForm.setAttribute('action', '{{ url('payment_post') }}');
             filesForm.setAttribute('method', 'post');
-            getFiles.innerText = validate;
+            getFiles.innerText = count > 1 ? sprintf(validateMulti, count) : validateOne;
             getFiles.removeAttribute('disabled');
             getFiles.classList.remove('disabled');
         } else {
@@ -85,6 +90,7 @@
             filesForm.setAttribute('action', '{{ url('fileList') }}');
             filesForm.setAttribute('method', 'get');
             {% else %}
+            getFiles.innerText = 'Sélectionnez un fichier';
             getFiles.classList.add('disabled');
             getFiles.setAttribute('disabled', 'true');
             {% endif %}

@@ -1,14 +1,23 @@
+{% set isNotLG = true %}
+{% set inputs = [
+    {
+        name: 'email',
+        placeholder: 'votre@email.com',
+        text: 'Email',
+        type: 'email',
+    },
+    {
+        name: 'cardholder-name',
+        text: 'Titulaire de la carte',
+    },
+] %}
+
 <form onsubmit="doNothing(event)">
-    <div class="pb-2 form-group">
-        <label for="email" class="col-form-label col-form-label-lg">Email</label>
-        <input id="email" class="form-control w-100" type="text" placeholder="votre@email.com" required>
-    </div>
-    <div class="pb-2 form-group">
-        <label for="cardholder-name" class="col-form-label col-form-label-lg">Titulaire de la carte</label>
-        <input id="cardholder-name" class="form-control w-100" type="text" placeholder="Titulaire de la carte" required>
-    </div>
-    <div class="form-group">
-        <label for="card-element">Credit or debit card</label>
+    {% for item in inputs %}
+        {% include '/Components/Forms/_common/_group.html.twig' %}
+    {% endfor %}
+    <div class="form-group col-12">
+        <label for="card-element">Carte de crédit</label>
         <div id="card-element" class="form-control" style='height: 2.4em; padding-top: .7em;'>
             <!-- A Stripe Element will be inserted here. -->
         </div>

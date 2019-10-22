@@ -16,14 +16,22 @@ class Files extends CommonController
 
     public function renderBasket(): Response
     {
-        $intent = (new Stripe($this->session))->retrieveIntent();
+        $params = [];
+        if ($this->session->has(self::FIELD_NAME_FILES) && \count($this->session->get(self::FIELD_NAME_FILES))) {
+            $intent = (new Stripe($this->session))->generateIntent($this->session->get(self::FIELD_NAME_FILES));
+            $params = ['intent_secret' => $intent->client_secret];
 
-        return $this->render('files/payment', [
-            'background_title' => 'Votre panier',
-            'background_description' => 'Validation et paiement de votre panier',
-            'files' => $this->session->get(self::FIELD_NAME_FILES),
-            'intent_secret' => $intent->client_secret
-        ]);
+        }
+
+        return $this->render('files/payment', array_merge(
+            [
+                'background_title' => 'Votre panier',
+                'background_description' => 'Validation et paiement de votre panier',
+                'files' => $this->session->get(self::FIELD_NAME_FILES),
+                'public_key_stripe' => getenv('STRIPE_PUBLIC_KEY')
+            ],
+            $params
+        ));
     }
 
     public function listFiles()
@@ -59,6 +67,7 @@ class Files extends CommonController
             $existedFiles = $this->entityManager->getRepository(File::class)->findAll();
 
             foreach ($files as $k => $v) {
+                /** @var File $existedFile */
                 foreach ($existedFiles as $existedFile) {
                     if ($k === $existedFile->getName() && !\in_array($k, $files_session)) {
                         \array_push($files_session, $existedFile);

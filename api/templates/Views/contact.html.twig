@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% set cards = [
+    {
+        icon: "question-circle",
+        text: "Un support compétent pour répondre à vos interrogations"
+    },
+    {
+        icon: "file-alt",
+        text: "Tous les documents juridiques nécessaires réunis au même endroit"
+    },
+    {
+        icon: "stopwatch",
+        text: "Rapide, simple d'utilisation, une disponibilité 24/7"
+    }
+] %}
+
+{% block content %}
+    <div class="bg-light">
+        <div class="container py-5">
+            {% include '/Components/Views/Contact.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
