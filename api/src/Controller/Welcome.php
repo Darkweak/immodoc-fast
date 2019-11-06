@@ -5,6 +5,8 @@ namespace App\Controller;
 
 
 use App\Entity\File;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class Welcome extends CommonController
 {
@@ -16,7 +18,7 @@ class Welcome extends CommonController
             'welcome',
             [
                 'background_title' => \sprintf('Bienvenue sur %s', getenv('APP_NAME')),
-                'background_description' => 'Votre partenaire pour vos documents immobiliers',
+                'background_description' => 'Votre partenaire pour vos mandats immobiliers',
                 'files' => $files,
                 'files_name_attribute' => Files::FIELD_NAME_FILES,
                 'files_selected' => $this->session->get(Files::FIELD_NAME_FILES),
@@ -24,7 +26,7 @@ class Welcome extends CommonController
         );
     }
 
-    public function generate()
+    public function generate(UserPasswordEncoderInterface $userPasswordEncoder)
     {
         for ($i = 0; $i < 20; $i++) {
             $current = new File();
@@ -35,13 +37,18 @@ class Welcome extends CommonController
             $this->entityManager->persist($current);
         }
 
+        $user = new User();
+        $user->setEmail('comptedetest@test.fr')
+            ->setPassword($userPasswordEncoder->encodePassword($user, 'passw0rd'));
+        $this->entityManager->persist($user);
+
         $this->entityManager->flush();
 
         return $this->render(
             'welcome',
             [
                 'background_title' => \sprintf('Bienvenue sur %s', getenv('APP_NAME')),
-                'background_description' => 'Votre partenaire pour vos documents immobiliers',
+                'background_description' => 'Votre partenaire pour vos mandats immobiliers',
             ]
         );
     }

@@ -18,8 +18,8 @@ class Files extends CommonController
     {
         $params = [];
         if ($this->session->has(self::FIELD_NAME_FILES) && \count($this->session->get(self::FIELD_NAME_FILES))) {
-            $intent = (new Stripe($this->session))->generateIntent($this->session->get(self::FIELD_NAME_FILES));
-            $params = ['intent_secret' => $intent->client_secret];
+            $intent = (new Stripe($this->session))->generateIntent();
+            $params = ['intent_secret' => $intent->client_secret, 'intent_id' => $intent->id];
 
         }
 

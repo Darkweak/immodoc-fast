@@ -17,20 +17,8 @@ class Payment
     use EmailTrait;
 
     /**
-     * @var string
-     * @ORM\Column
-     */
-    private $firstname;
-
-    /**
-     * @var string
-     * @ORM\Column
-     */
-    private $lastname;
-
-    /**
      * @var \DateTime
-     * @ORM\Column
+     * @ORM\Column(type="datetime")
      */
     private $transactionDate;
 
@@ -41,36 +29,20 @@ class Payment
     private $amount;
 
     /**
+     * @var int
+     * @ORM\Column
+     */
+    private $intentId;
+
+    /**
      * @var Collection
-     * @ORM\OneToMany(targetEntity=CryptedFile::class, mappedBy="file")
+     * @ORM\OneToMany(targetEntity=CryptedFile::class, mappedBy="payment")
      */
     private $cryptedFiles;
 
     public function __construct()
     {
         $this->cryptedFiles = new ArrayCollection();
-    }
-
-    public function getFirstname(): string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(string $firstname): self
-    {
-        $this->firstname = $firstname;
-        return $this;
-    }
-
-    public function getLastname(): string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(string $lastname): self
-    {
-        $this->lastname = $lastname;
-        return $this;
     }
 
     public function getTransactionDate(): \DateTime
@@ -92,6 +64,17 @@ class Payment
     public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    public function getIntentId(): string
+    {
+        return $this->intentId;
+    }
+
+    public function setIntentId(string $intentId): self
+    {
+        $this->intentId = $intentId;
         return $this;
     }
 

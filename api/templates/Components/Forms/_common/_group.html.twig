@@ -3,6 +3,6 @@
     {% if item.field is defined and 'textarea' == item.field %}
         <textarea name="{{ item.name }}" class="form-control{% if isNotLG is not defined or false == isNotLG %} form-control-lg{% endif %}" id="{{ item.name }}" placeholder="{{ item.placeholder|default(item.text) }}" required></textarea>
     {% else %}
-        <input name="{{ item.name }}" type="{{ item.type|default('text') }}" class="form-control{% if isNotLG is not defined or false == isNotLG %} form-control-lg{% endif %}" id="{{ item.name }}" placeholder="{{ item.placeholder|default(item.text) }}" required>
+        <input name="{{ item.name }}" type="{{ item.type|default('text') }}" class="form-control{% if isNotLG is not defined or false == isNotLG %} form-control-lg{% endif %}" id="{{ item.name }}" placeholder="{{ item.placeholder|default(item.text) }}" {% if item.value is defined %}value="{{ item.value }}"{% endif %} required>
     {% endif %}
 </div>

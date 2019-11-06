@@ -5,9 +5,11 @@
             <h1 class="display-4">
                 {{ background_title|default(background_image) }}
             </h1>
+            {% if background_description is defined %}
             <h2 class="h2-responsive">
                 {{ background_description|default(background_image) }}
             </h2>
+            {% endif %}
         </div>
     </div>
 </div>

@@ -31,7 +31,11 @@
     color: var(--primary-color) !important;
 }
 
-.primary-50, .active, .nav-link:hover {
+a {
+    text-decoration: none !important;
+}
+
+.primary-50, .active, .nav-link:hover, a {
     color: var(--primary-50-color) !important;
 }
 

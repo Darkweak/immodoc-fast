@@ -1,0 +1,16 @@
+{% extends '/Emails/email.html.twig' %}
+
+{% block body %}
+    <h1>Voici vos fichiers commandés:</h1>
+    <p>Cliquez sur les différents liens pour télécharger les fichiers.</p>
+    <p>Attention, un fichier ne peut être téléchargé qu'une seule fois.</p>
+
+    <ul class="text-left">
+        {% for file in files %}
+            <li>{{ file.file.name }}: <a href="{{ url('downloadFile', { 'token': file.token }) }}">
+                    {{ url('downloadFile', { 'token': file.token }) }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

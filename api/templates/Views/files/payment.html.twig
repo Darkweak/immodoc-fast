@@ -73,8 +73,9 @@
     </div>
 {% endblock %}
 {% block javascript %}
-<script type = "text/javascript">
-const stripe = Stripe('{{ public_key_stripe }}');
+{% if files|length %}
+<script type="text/javascript">
+    const stripe = Stripe('{{ public_key_stripe }}');
 
 let elements = stripe.elements();
 let cardElement = elements.create('card');
@@ -88,8 +89,7 @@ let clientSecret = cardButton.dataset.secret;
 cardButton.addEventListener('click', function () {
     cardButton.classList.add('disabled');
     cardButton.setAttribute('disabled', true);
-    cardButton.innerText(verificationText);
-    const email = document.getElementById('email').value;
+    cardButton.innerText = verificationText;
     stripe.handleCardPayment(
         clientSecret, cardElement, {
             payment_method_data: {
@@ -99,23 +99,35 @@ cardButton.addEventListener('click', function () {
     ).then(function (response) {
         cardButton.classList.remove('disabled');
         cardButton.removeAttribute('disabled');
-        cardButton.innerText(baseText);
-        for (let i = 0; i < formFields.length; i++) {
-            formFields[i].removeAttribute('disabled');
-            formFields[i].classList.remove('disabled');
-        }
+        cardButton.innerText = baseText;
         const successPayment = document.getElementById('successPayment');
         const errorPayment = document.getElementById('errorPayment');
+        const email = document.getElementById('email').value;
 
         if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
             successPayment.classList.remove('d-none');
             errorPayment.classList.add('d-none');
             document.getElementById('paymentFormContainer').classList.add('d-none');
+            checkPaymentAndSendEmail(email)
         } else {
             successPayment.classList.add('d-none');
             errorPayment.classList.remove('d-none');
         }
     });
 });
+
+function checkPaymentAndSendEmail(email) {
+  fetch('{{ url('validation_payment') }}', {
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    body: JSON.stringify({
+        email,
+        intent: '{{ intent_id }}'
+    })
+  }).catch(() => {});
+}
 </script>
+{% endif %}
 {% endblock %}

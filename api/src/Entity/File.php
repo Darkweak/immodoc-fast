@@ -2,12 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Traits\IdTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     collectionOperations={
+ *          "get",
+ *          "post"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *          "get",
+ *          "put"={"access_control"="is_granted('ROLE_ADMIN')"},
+ *          "delete"={"access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     normalizationContext={"groups"={"read_file"}},
+ *     denormalizationContext={"groups"={"read_file"}}
+ * )
  * @ORM\Entity
  */
 class File
@@ -17,12 +32,14 @@ class File
     /**
      * @var string
      * @ORM\Column(type="text")
+     * @Groups({"read_file"})
      */
     private $description;
 
     /**
      * @var string
      * @ORM\Column(type="string")
+     * @Groups({"read_file"})
      */
     private $name;
 
@@ -35,6 +52,7 @@ class File
     /**
      * @var double
      * @ORM\Column(type="float")
+     * @Groups({"read_file"})
      */
     private $price;
 

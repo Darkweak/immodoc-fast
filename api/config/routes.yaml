@@ -18,6 +18,14 @@ fileList:
     methods: [GET]
     controller: App\Controller\Files::listFiles
 
+login:
+  path: /login_admin
+
+setImageFile:
+    path: /files/setImage
+    methods: [GET]
+    controller: App\Controller\Files::setImageFile
+
 payment_get:
     path: /payment
     methods: [GET]
@@ -28,10 +36,40 @@ payment_post:
     methods: [POST]
     controller: App\Controller\Files::paymentFile_post
 
-welcome:
-    path: /
-    controller: App\Controller\Welcome
+validation_payment:
+    path: /validatePayment
+    methods: [POST]
+    controller: App\Action\Payment
+
+mentions:
+    path: /mentions
+    methods: [GET]
+    controller: App\Controller\Mentions
 
 generate:
     path: /generate
     controller: App\Controller\Welcome::generate
+
+downloadFile:
+    path: /download/{token}
+    controller: App\Controller\Download
+
+uploadFile:
+    methods: [POST]
+    path: /upload/files
+    controller: App\Action\File
+
+updateFile:
+    methods: [POST]
+    path: /update/files
+    controller: App\Action\File::update
+
+welcome:
+    path: /
+    methods: [GET]
+    controller: App\Controller\Welcome
+
+api:
+    resource: '.'
+    type:     'api_platform'
+    prefix:   '/api'

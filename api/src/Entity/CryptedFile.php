@@ -22,13 +22,13 @@ class CryptedFile
 
     /**
      * @var Payment
-     * @ORM\ManyToOne(targetEntity=Payment::class, inversedBy="cryptedFile")
+     * @ORM\ManyToOne(targetEntity=Payment::class, inversedBy="cryptedFiles")
      */
     private $payment;
 
     /**
      * @var File
-     * @ORM\ManyToOne(targetEntity=File::class, inversedBy="cryptedFile")
+     * @ORM\ManyToOne(targetEntity=File::class, inversedBy="cryptedFiles")
      */
     private $file;
 

@@ -4,18 +4,17 @@ namespace App\Entity;
 
 use App\Traits\EmailTrait;
 use App\Traits\IdTrait;
-use App\Traits\TokenTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
+ * @ORM\Table(name="users")
  */
-class User
+class User implements UserInterface
 {
     use IdTrait;
     use EmailTrait;
-    use TokenTrait;
 
     /**
      * @var string
@@ -32,5 +31,24 @@ class User
     {
         $this->password = $password;
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_ADMIN'];
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
     }
 }

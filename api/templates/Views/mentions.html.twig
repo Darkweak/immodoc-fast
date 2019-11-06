@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% set mentions = [
+    'Présentation du site',
+    'Conditions générales d’utilisation du site et des services proposés',
+    'Description des services fournis',
+    'Limitations contractuelles sur les données techniques',
+    'Propriété intellectuelle et contrefaçons',
+    'Limitations de responsabilité',
+    'Gestion des données personnelles',
+    'Liens hypertextes et cookies',
+    'Droit applicable et attribution de juridiction',
+    'Les principales lois concernées',
+    'Lexique',
+] %}
+
+{% block content %}
+<div class="container py-4 primary-50">
+    {% for title in mentions %}
+        <div class="py-2">
+            <div class="d-flex">
+                <h2 class="py-1">
+                    {{ loop.index }}. {{ title }}.
+                    <div class="dropdown-divider m-0"></div>
+                </h2>
+            </div>
+            {% include '/Components/Mentions/' ~ loop.index ~ '.html.twig' %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

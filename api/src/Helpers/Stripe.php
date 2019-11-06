@@ -4,6 +4,7 @@
 namespace App\Helpers;
 
 
+use App\Controller\Files;
 use App\Entity\File;
 use Stripe\PaymentIntent;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -24,13 +25,13 @@ class Stripe
         return $this->intent;
     }
 
-    public function generateIntent(array $files): PaymentIntent
+    public function generateIntent(): PaymentIntent
     {
         try {
             $amount = 0;
 
             /** @var File $file */
-            foreach ($files as $file) {
+            foreach ($this->session->get(Files::FIELD_NAME_FILES) as $file) {
                 $amount += $file->getPrice();
             }
 
@@ -39,6 +40,16 @@ class Stripe
                 'currency' => 'eur',
             ]);
             return $this->intent;
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public static function retrieveIntent(string $intentId): ?PaymentIntent
+    {
+        \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+        try {
+            return PaymentIntent::retrieve($intentId);
         } catch (\Exception $e) {
             return null;
         }

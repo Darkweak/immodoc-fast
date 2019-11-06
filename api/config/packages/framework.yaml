@@ -16,4 +16,4 @@ framework:
         log: true
     
     assets:
-        version: v2
+        version: v3

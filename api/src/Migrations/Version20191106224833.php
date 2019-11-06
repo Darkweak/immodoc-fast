@@ -7,7 +7,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20191020112324 extends AbstractMigration
+final class Version20191106224833 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -20,8 +20,8 @@ final class Version20191020112324 extends AbstractMigration
 
         $this->addSql('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
         $this->addSql('CREATE TABLE file (id UUID NOT NULL, description TEXT NOT NULL, name VARCHAR(255) NOT NULL, path VARCHAR(255) NOT NULL, price DOUBLE PRECISION NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, token VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE payment (id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, transaction_date VARCHAR(255) NOT NULL, amount VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE users (id UUID NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE payment (id UUID NOT NULL, transaction_date TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, amount VARCHAR(255) NOT NULL, intent_id VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE crypted_file (id UUID NOT NULL, payment_id UUID DEFAULT NULL, file_id UUID DEFAULT NULL, used BOOLEAN DEFAULT \'false\' NOT NULL, token VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_DC1FE504C3A3BB ON crypted_file (payment_id)');
         $this->addSql('CREATE INDEX IDX_DC1FE5093CB796C ON crypted_file (file_id)');
@@ -37,7 +37,7 @@ final class Version20191020112324 extends AbstractMigration
         $this->addSql('ALTER TABLE crypted_file DROP CONSTRAINT FK_DC1FE5093CB796C');
         $this->addSql('ALTER TABLE crypted_file DROP CONSTRAINT FK_DC1FE504C3A3BB');
         $this->addSql('DROP TABLE file');
-        $this->addSql('DROP TABLE "user"');
+        $this->addSql('DROP TABLE users');
         $this->addSql('DROP TABLE payment');
         $this->addSql('DROP TABLE crypted_file');
     }

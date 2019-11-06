@@ -1,5 +1,6 @@
 .PHONY: build cache composer-install composer-update help install migration-create migration-diff repopulate-db up update
 
+CONFIG_DIR=api/config
 DC=docker-compose
 DC_UP=$(DC) up -d
 DC_EXEC=$(DC) exec php
@@ -30,7 +31,15 @@ drop-db: ## Drop database
 	$(DC_UP)
 	$(BIN_CONSOLE) doctrine:database:drop --force
 
+delete-files: ## Delete files
+	rm -rf api/files/mypath/*
+
 install: composer-install migration-migrate ## Install and setup project
+
+jwt: ## Generate JWT
+	mkdir -p $(CONFIG_DIR)/jwt
+	echo "$(jwt)" | openssl genpkey -out $(CONFIG_DIR)/jwt/private.pem -pass stdin -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+	echo "$(jwt)" | openssl pkey -in $(CONFIG_DIR)/jwt/private.pem -passin stdin -out $(CONFIG_DIR)/jwt/public.pem -pubout
 
 migration-down: ## Remove migration
 	$(BIN_CONSOLE) doctrine:migrations:execute --down $(migration)

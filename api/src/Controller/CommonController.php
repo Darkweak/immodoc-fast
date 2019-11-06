@@ -37,7 +37,10 @@ class CommonController
                 \sprintf('Views/%s.html.twig', $template),
                 \array_merge(
                     [
+                        'app_city' => 'CODE POSTAL',
                         'app_name' => getenv('APP_NAME'),
+                        'app_postcode' => '00000',
+                        'app_street' => "1 rue de l'espace",
                         'background_image' => $template,
                         'number_selected_files' => \count($this->session->get(Files::FIELD_NAME_FILES) ?? [])
                     ],

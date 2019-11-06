@@ -4,14 +4,17 @@
             <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
                 <span class="text-white">
                     {{ app_name }}<br/>
-                    1 rue de l'espace<br/>
-                    00000 CODE POSTAL
+                    {{ app_street }}<br/>
+                    {{ app_postcode }} {{ app_city }}
                 </span>
             </div>
             <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
                 <span class="text-white">
                     © {{ "now"|date("Y") }} - {{ app_name }}
                 </span>
+                <a href="{{ url('mentions') }}" class="text-white text-decoration-none">
+                    Mentions légales
+                </a>
             </div>
             <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
                 <iframe
