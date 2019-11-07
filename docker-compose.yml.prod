@@ -72,7 +72,7 @@ services:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     labels:
-      - traefik.frontend.rule=Host:admin.${DOMAIN_NAME}
+      - traefik.frontend.rule=Host:admin-${DOMAIN_NAME}
     <<: *react-env
     volumes:
       - ./admin:/usr/src/admin:rw,cached
