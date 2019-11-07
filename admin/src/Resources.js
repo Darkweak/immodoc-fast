@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import {
-  HydraAdmin,
   FieldGuesser,
   InputGuesser,
-  ResourceGuesser,
   ShowGuesser,
 } from '@api-platform/admin';
 import { Create, Edit, FileField, FileInput, NumberInput, SimpleForm } from 'react-admin';

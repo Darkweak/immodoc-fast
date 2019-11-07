@@ -55,6 +55,10 @@ migration-migrate: ## Execute unlisted migrations
 
 reset-db: drop-db create-db migration-migrate ## Reset database
 
+start-admin: up ## Install and start admin
+	$(DC) exec admin yarn add axios
+	$(DC) exec admin yarn
+
 up: ## Start containers
 	$(DC_UP)
 
