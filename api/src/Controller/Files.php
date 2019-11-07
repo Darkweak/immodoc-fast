@@ -47,11 +47,6 @@ class Files extends CommonController
         ]);
     }
 
-    public function downloadFile()
-    {
-        $this->render('files/download');
-    }
-
     public function paymentFile_post()
     {
         try {

@@ -23,7 +23,7 @@ class Download extends CommonController
             $path = \sprintf('%s/../..%s/%s', __DIR__, File::PATH_FOLDER, $cryptedFile->getFile()->getPath());
             $response = new BinaryFileResponse($path);
 
-            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $cryptedFile->getFile()->getName());
+            $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $cryptedFile->getFile()->getPath());
             $response->headers->set('Content-Type', 'text/plain');
 
             return $response;
