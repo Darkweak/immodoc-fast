@@ -12,7 +12,7 @@ x-cache-from:
 
 x-networks: &networks
   networks:
-    - immodocs
+    - my_network
 
 services:
   php:
@@ -51,7 +51,7 @@ services:
     volumes:
       - ./api/public:/srv/api/public:ro
     labels:
-      - traefik.frontend.rule=HostRegexp:${DOMAIN_NAME},www.${DOMAIN_NAME}
+      - traefik.http.routers.api.rule=HostRegexp(`{subdomains:(www.)?}${DOMAIN_NAME}`)
     <<: *networks
 
   db:
@@ -72,7 +72,7 @@ services:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     labels:
-      - traefik.frontend.rule=Host:admin-${DOMAIN_NAME}
+      - traefik.http.routers.admin.rule=Host(`admin.${DOMAIN_NAME}`)
     <<: *react-env
     volumes:
       - ./admin:/usr/src/admin:rw,cached
@@ -82,5 +82,5 @@ volumes:
   db-data: {}
 
 networks:
-  immodocs:
+  my_network:
     external: true

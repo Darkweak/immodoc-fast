@@ -34,6 +34,11 @@ drop-db: ## Drop database
 delete-files: ## Delete files
 	rm -rf api/files/mypath/*
 
+first-init: ## Init folders and jwt
+	mkdir -p api/files/mypath
+	chmod -R 777 api/files/mypath
+	$(MAKE) jwt
+
 install: composer-install migration-migrate ## Install and setup project
 
 jwt: ## Generate JWT
