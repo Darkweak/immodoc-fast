@@ -1,32 +1,21 @@
-<footer class="bg-primary">
-    <div class="container py-3">
-        <div class="row">
-            <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
-                <span class="text-white">
-                    {{ app_name }}<br/>
-                    {{ app_street }}<br/>
-                    {{ app_postcode }} {{ app_city }}
-                </span>
-            </div>
-            <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
-                <span class="text-white">
+<footer class="bg-primary-50">
+    <div class="footer-c py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <a href="{{ url('mentions') }}" class="text-light text-decoration-none">
+                        Mentions légales
+                    </a>
+                </div>
+                <div class="col-md-4 text-light text-center">
                     © {{ "now"|date("Y") }} - {{ app_name }}
-                </span>
-                <a href="{{ url('mentions') }}" class="text-white text-decoration-none">
-                    Mentions légales
-                </a>
+                </div>
+                <div class="col-md-4 text-light text-center">
+                    <a href="https://devcv.fr" target="_blank" class="text-light text-decoration-none">
+                        Sylvain COMBRAQUE
+                    </a>
+                </div>
             </div>
-            <div class="col-xs-12 col-md-4 text-center align-self-center py-2">
-                <iframe
-                    title="{{ app_name }} map" class="w-100"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2800.265442306787!2d1.4305285443352447!3d43.60681794559788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12aebb688b25c2e5%3A0xf81808793af0dfcb!2s5+Rue+Lejeune%2C+31000+Toulouse!5e0!3m2!1sfr!2sfr!4v1532101510579"
-                    frameborder="0" allowfullscreen=""></iframe>
-            </div>
-        </div>
-    </div>
-    <div class="footer-c pt-2 pb-2">
-        <div class="container text-light text-center">
-            © {{ "now"|date("Y") }} - {{ app_name }}
         </div>
     </div>
 </footer>

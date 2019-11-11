@@ -86,6 +86,16 @@ a {
     font-weight: 500 !important;
 }
 
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
 footer {
     border-top: var(--border-footer-navbar);
 }
@@ -96,7 +106,7 @@ footer > .container {
 }
 
 .footer-c {
-    background-color: rgba(24,24,33,0.3) !important;
+    background-color: rgba(0,0,0,0.3) !important;
     font-size: 1.2rem;
 }
 
@@ -121,7 +131,7 @@ footer > .container {
 }
 
 .scrollToTop:hover {
-    background-color: rgb(26, 36, 47);
+    background-color: rgb(26, 36, 47) !important;
 }
 
 .mw-10 {
@@ -138,4 +148,12 @@ footer > .container {
 
 .mw-40 {
     width: 40% !important;
+}
+
+.font-weight-500 {
+    font-weight: 500 !important;
+}
+
+.fas {
+    font-weight: 900 !important;
 }

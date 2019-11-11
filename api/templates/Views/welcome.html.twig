@@ -2,15 +2,12 @@
 
 {% set cards = [
     {
-        icon: "question-circle",
-        text: "Un support compétent pour répondre à vos interrogations"
-    },
-    {
         icon: "file-alt",
-        text: "Tous les mandats nécessaires pour votre activité réunis au même endroit"
+        text: "Tous les mandats nécessaires pour votre activité réunis au même endroit",
+        type: "far"
     },
     {
-        icon: "stopwatch",
+        custom: "7/7",
         text: "Rapide, simple d'utilisation, une disponibilité 24/7"
     }
 ] %}
@@ -24,22 +21,30 @@
                     <div class="dropdown-divider m-0"></div>
                 </h1>
             </div>
-            {% for card in cards %}
-                <div class="col-md-4 py-3 primary-50">
-                    <div class="card shadow h-100">
-                        <div class="card-body">
-                            <div class="col-10 offset-1 text-center">
-                    <span class="display-2">
-                        <i class="fas fa-{{ card.icon }}"></i>
+            <div class="col-md-8 offset-md-2">
+                <div class="row m-0">
+                    {% for card in cards %}
+                        <div class="col-md-6 py-3 primary-50">
+                            <div class="card shadow h-100">
+                                <div class="card-body">
+                                    <div class="col-10 offset-1 text-center">
+                    <span class="display-2 font-weight-500">
+                        {% if card.custom is defined %}
+                            {{ card.custom }}
+                        {% else %}
+                            <i class="{{ card.type|default('fas') }} fa-{{ card.icon }}"></i>
+                        {% endif %}
                     </span>
+                                    </div>
+                                    <h3 class="card-title pt-3 text-center">
+                                        {{ card.text }}
+                                    </h3>
+                                </div>
                             </div>
-                            <h3 class="card-title pt-3 text-center">
-                                {{ card.text }}
-                            </h3>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
-            {% endfor %}
+            </div>
         </div>
     </div>
     <div class="bg-primary-50 py-5 text-light">

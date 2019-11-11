@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {% block stylesheet %}{% endblock %}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.0/css/all.css">
     <link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('/assets/css/main.css') }}">
     <meta name="description"
@@ -15,16 +14,18 @@
     <title>{{ title|default(app_name ~ ' - Vos documents immobilier') }}</title>
 </head>
 <body>
-{% include './Static/navbar.html.twig' %}
-{% include './Image/image.html.twig' %}
+<main>
+    {% include './Static/navbar.html.twig' %}
+    {% include './Image/image.html.twig' %}
 
-{% block content %}{% endblock %}
+    {% block content %}{% endblock %}
+</main>
 
 {% include './Static/footer.html.twig' %}
 
 <div class="position-fixed scrollToTop bg-primary-50 transition d-none pointer" id="scrollToTop" onclick="scrollToTop()">
     <h1 class="text-center">
-        <i class="fas fa-caret-up text-white"></i>
+        <i class="fas fa fa-caret-up text-white"></i>
     </h1>
 </div>
 
