@@ -25,10 +25,10 @@ class Welcome extends CommonController
             ]
         );
     }
-
+/*
     public function generate(UserPasswordEncoderInterface $userPasswordEncoder)
     {
-        /*for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $current = new File();
             $current->setDescription(\sprintf('My awesome biggerdescription to describe my file number %s', $i));
             $current->setName(\sprintf('My file number %s', $i));
@@ -36,10 +36,9 @@ class Welcome extends CommonController
             $current->setPrice(rand(0,10000)/100);
             $this->entityManager->persist($current);
         }
-*/
         $user = new User();
-        $user->setEmail(getenv("ADMIN_USER"))
-            ->setPassword($userPasswordEncoder->encodePassword($user, getenv("ADMIN_PASSWORD")));
+        $user->setEmail('stephanechouchana')
+            ->setPassword($userPasswordEncoder->encodePassword($user, 'passw0rd'));
         $this->entityManager->persist($user);
 
         $this->entityManager->flush();
@@ -51,5 +50,5 @@ class Welcome extends CommonController
                 'background_description' => 'Votre partenaire pour vos mandats immobiliers',
             ]
         );
-    }
+    }*/
 }
