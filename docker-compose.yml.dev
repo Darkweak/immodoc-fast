@@ -28,6 +28,8 @@ services:
       <<: *api-cache-from
     image: ${PHP_IMAGE:-quay.io/api-platform/php}
     environment:
+      - ADMIN_USER=${ADMIN_USER}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
       - APP_ENV=${APP_ENV}
       - APP_NAME=${APP_NAME}
       - APP_SECRET=${APP_SECRET}
