@@ -4,7 +4,7 @@
 namespace App\Helpers;
 
 
-use Symfony\Component\Mailer\Bridge\Google\Smtp\GmailTransport;
+use Symfony\Component\Mailer\Bridge\Mailgun\Smtp\MailgunTransport;
 use Symfony\Component\Mailer\Mailer as SFMailer;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -17,7 +17,7 @@ class Mailer
     public function __construct(Environment $environment)
     {
         $this->environment = $environment;
-        $transport = new GmailTransport(getenv('EMAIL_USER'), getenv('EMAIL_PASS'));
+        $transport = new MailgunTransport(getenv('EMAIL_USER'), getenv('MAILGUN_KEY'), 'eu');
         $this->mailer = new SFMailer($transport);
     }
 
