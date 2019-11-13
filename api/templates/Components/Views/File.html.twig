@@ -79,7 +79,7 @@
 
     function flipFormAttributes(isPost, count) {
         if (isPost) {
-            filesForm.setAttribute('action', '{{ url('payment_post') }}');
+            filesForm.setAttribute('action', '/payment');
             filesForm.setAttribute('method', 'post');
             getFiles.innerText = count > 1 ? sprintf(validateMulti, count) : validateOne;
             getFiles.removeAttribute('disabled');
@@ -87,7 +87,7 @@
         } else {
             {% if path %}
             getFiles.innerText = goToList;
-            filesForm.setAttribute('action', '{{ url('fileList') }}');
+            filesForm.setAttribute('action', '/files');
             filesForm.setAttribute('method', 'get');
             {% else %}
             getFiles.innerText = 'Sélectionnez un fichier';
