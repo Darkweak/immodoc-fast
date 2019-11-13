@@ -54,7 +54,7 @@ services:
     volumes:
       - ./api/public:/srv/api/public:ro
     labels:
-      - traefik.http.routers.api.rule=HostRegexp(`{subdomains:(www.)?}${DOMAIN_NAME}`)
+      - traefik.frontend.rule=Host:${DOMAIN_NAME},www.${DOMAIN_NAME}
     <<: *networks
 
   db:
@@ -75,7 +75,7 @@ services:
         - ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     image: ${ADMIN_IMAGE:-quay.io/api-platform/admin}
     labels:
-      - traefik.http.routers.admin.rule=Host(`admin.${DOMAIN_NAME}`)
+      - traefik.frontend.rule=Host:admin-${DOMAIN_NAME}
     <<: *react-env
     volumes:
       - ./admin:/usr/src/admin:rw,cached
