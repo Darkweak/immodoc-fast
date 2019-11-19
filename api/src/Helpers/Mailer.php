@@ -45,6 +45,17 @@ class Mailer
                             $options
                         )
                     )
+            )->text(
+                $this->environment
+                    ->render(
+                        \sprintf('Emails/%s.txt.twig', $template),
+                        \array_merge(
+                            [
+                                'app_name' => getenv('APP_NAME')
+                            ],
+                            $options
+                        )
+                    )
             );
 
         $this->mailer->send($email);

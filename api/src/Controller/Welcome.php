@@ -25,7 +25,7 @@ class Welcome extends CommonController
             ]
         );
     }
-/*
+
     public function generate(UserPasswordEncoderInterface $userPasswordEncoder)
     {
         for ($i = 0; $i < 20; $i++) {
@@ -50,5 +50,5 @@ class Welcome extends CommonController
                 'background_description' => 'Votre partenaire pour vos mandats immobiliers',
             ]
         );
-    }*/
+    }
 }

@@ -1,0 +1,7 @@
+{% extends '/Emails/email.html.twig' %}
+
+{% block body %}
+    <h1>Nouveau message de {{ firstname }} {{ lastname }},</h1>
+
+    <p>{{ message }}</p>
+{% endblock %}

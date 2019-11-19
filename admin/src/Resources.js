@@ -5,6 +5,7 @@ import {
   ShowGuesser,
 } from '@api-platform/admin';
 import { Create, Edit, FileField, FileInput, NumberInput, SimpleForm } from 'react-admin';
+import { Button, Paper } from '@material-ui/core';
 import axios from 'axios';
 import './app.css';
 
@@ -42,6 +43,21 @@ const handleFileAndUpload = async (fileInputElement, inputsElements, url = 'uplo
   } catch (e) {}
 };
 
+const notifyAgents = async () => {
+  try {
+    let headers = {
+      Accept: 'application/ld+json'
+    };
+    headers.Authorization = `Bearer ${ getToken() }`;
+    const request = ({
+      url: `${process.env.REACT_APP_API_ENTRYPOINT}/notify`,
+      method: 'POST',
+      headers: headers
+    });
+    await axios.request(request);
+  } catch (e) {}
+};
+
 const formToJSON = elements => [].reduce.call(elements, (data, element) => {
   data[element.name] = element.value;
   return data;
@@ -57,7 +73,6 @@ const FileUploader = ({ setFile }) => {
 
 const CommonForm = ({ url = 'upload', id, ...rest }) => {
   const [file, setFile] = useState(null);
-  console.log(id)
   return (
     <SimpleForm redirect="list" handleSubmit={async () => await handleFileAndUpload(file, document.forms[0], url, id)} {...rest}>
       <InputGuesser source="name" />
@@ -79,3 +94,21 @@ export const FilesCreate = props => (
     <CommonForm/>
   </Create>
 );
+
+export const Notification = () => {
+  const [isClicked, setClicked] = useState(false);
+
+  return (
+    <Paper>
+      { !isClicked ?
+        <h1>
+          Notifiez tous les agents en cliquant sur <Button variant="contained" color="primary" onClick={() => {
+            notifyAgents();
+            setClicked(true);
+          }}>ce bouton</Button>
+        </h1> :
+        <h1>Vous avez notifié tous les agents</h1>
+      }
+    </Paper>
+  )
+}

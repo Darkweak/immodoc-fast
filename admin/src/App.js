@@ -6,10 +6,11 @@ import {
   fetchHydra as baseFetchHydra
 } from '@api-platform/admin';
 import './app.css';
-import { FilesCreate, FilesEdit, FilesShow } from './Resources';
+import { FilesCreate, FilesEdit, FilesShow, Notification } from './Resources';
+import { MenuItemLink } from 'react-admin';
 import { parseHydraDocumentation } from '@api-platform/api-doc-parser/lib/hydra';
 import authProvider from './authProvider';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 const entrypoint = `${process.env.REACT_APP_API_ENTRYPOINT}/api`;
 const fetchHeaders = {'Authorization': `Bearer ${window.localStorage.getItem('token')}`};
@@ -43,8 +44,23 @@ const dataProvider = baseDataProvider(entrypoint, fetchHydra, apiDocumentationPa
 export default () => <HydraAdmin {...{
     authProvider,
     apiDocumentationParser,
+    customRoutes: [
+      <Route exact path="/notification" component={() => <Notification/>} />
+    ],
     dataProvider,
-    entrypoint
+    entrypoint,
+    menu: ({ resources, onMenuClick }) => (
+      <div>
+        <MenuItemLink
+          to="/files"
+          primaryText="Fichiers"
+          onClick={onMenuClick} />
+        <MenuItemLink
+          to="/notification"
+          primaryText="Notification"
+          onClick={onMenuClick} />
+      </div>
+    )
   }}>
   <ResourceGuesser name="files" show={FilesShow} create={FilesCreate} edit={FilesEdit}/>
 </HydraAdmin>;

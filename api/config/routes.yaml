@@ -59,6 +59,11 @@ uploadFile:
     path: /upload/files
     controller: App\Action\File
 
+notify:
+    methods: [POST]
+    path: /notify
+    controller: App\Action\Notify
+
 updateFile:
     methods: [POST]
     path: /update/files
