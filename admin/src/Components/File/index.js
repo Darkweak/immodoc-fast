@@ -55,7 +55,7 @@ const CommonForm = ({ url = 'upload', id, ...rest }) => {
   )
 };
 
-export const FileShow = props => <Show fields={'name', 'description', 'price'} {...props}/>;
+export const FileShow = props => <Show fields={['name', 'description', 'price']} {...props}/>;
 export const FileEdit = props => (
   <Edit {...props}>
     <CommonForm url="update" {...{...props, id: props.id.split('/')[3]}}/>

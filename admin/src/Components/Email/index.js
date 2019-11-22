@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Create, Edit } from 'react-admin';
+import { Edit } from 'react-admin';
 import { getToken, Show } from '../Common';
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios/index';
-import { Button, IconButton, Icon, TextField } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 
 const handleUpdateEmail = async (content, name, id) => {
