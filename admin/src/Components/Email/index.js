@@ -94,23 +94,30 @@ const CommonForm = ({ content, setContent, name, setName, id, ...rest }) => {
       >
         Save
       </Button>
-      <Button
-        onClick={() => handleUpdateEmail(content, name, id).then(() => tryEmail(id))}
-        variant="contained"
-        color="primary"
-        startIcon={<SaveIcon />}
-      >
-        Save & Test
-      </Button>
-      <Button
-        onClick={() => handleUpdateEmail(content, name, id).then(() => prodEmail(id))}
-        variant="contained"
-        color="secondary"
-        startIcon={<SaveIcon />}
-      >
-        Save & Send to users
-      </Button>
+      <ButtonSend {...{ label: 'Save & Test', callback: () => tryEmail(id), content, name, id }}/>
+      <ButtonSend {...{ label: 'Save & Send to users', callback: () => prodEmail(id), content, name, id }}/>
     </div>
+  )
+};
+
+const ButtonSend = ({ label, callback, content, name, id }) => {
+  const [clicked, setClicked] = useState(false);
+  return (
+    <Button
+      onClick={() => {
+        setClicked(true);
+        handleUpdateEmail(content, name, id).then(callback)
+      }}
+      disabled={clicked}
+      variant="contained"
+      color="secondary"
+      startIcon={<SaveIcon />}
+    >
+      {
+        clicked ?
+          'Envoyé!' : label
+      }
+    </Button>
   )
 };
 

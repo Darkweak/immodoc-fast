@@ -15,7 +15,7 @@ class ContactMailer extends Mailer
     {
         $this->send(
             $email,
-            'stephanechouchana@gmail.com',
+            'chouchanaconsulting@gmail.com',
             \sprintf(
                 'Nouveau message de %s %s',
                 $firstname,
