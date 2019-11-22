@@ -6,11 +6,13 @@ import {
   fetchHydra as baseFetchHydra
 } from '@api-platform/admin';
 import './app.css';
-import { FilesCreate, FilesEdit, FilesShow, Notification } from './Resources';
+import { FileCreate, FileEdit, FileShow } from './Components/File';
+import { Notification } from './Resources';
 import { MenuItemLink } from 'react-admin';
 import { parseHydraDocumentation } from '@api-platform/api-doc-parser/lib/hydra';
 import authProvider from './authProvider';
 import { Redirect, Route } from 'react-router-dom';
+import { EmailEdit, EmailShow } from './Components/Email';
 
 const entrypoint = `${process.env.REACT_APP_API_ENTRYPOINT}/api`;
 const fetchHeaders = {'Authorization': `Bearer ${window.localStorage.getItem('token')}`};
@@ -56,11 +58,12 @@ export default () => <HydraAdmin {...{
           primaryText="Fichiers"
           onClick={onMenuClick} />
         <MenuItemLink
-          to="/notification"
-          primaryText="Notification"
+          to="/emails"
+          primaryText="Emails"
           onClick={onMenuClick} />
       </div>
     )
   }}>
-  <ResourceGuesser name="files" show={FilesShow} create={FilesCreate} edit={FilesEdit}/>
+  <ResourceGuesser name="files" show={FileShow} create={FileCreate} edit={FileEdit}/>
+  <ResourceGuesser name="emails" show={EmailShow} edit={EmailEdit}/>
 </HydraAdmin>;

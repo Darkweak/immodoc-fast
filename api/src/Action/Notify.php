@@ -15,4 +15,10 @@ class Notify extends NotifyMailer
 
         return new JsonResponse([]);
     }
+    public function test(string $id)
+    {
+        $this->testNotify($id);
+
+        return new JsonResponse([]);
+    }
 }
