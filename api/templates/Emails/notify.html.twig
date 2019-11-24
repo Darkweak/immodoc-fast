@@ -1,8 +1,16 @@
 {% extends '/Emails/email.html.twig' %}
 
 {% block body %}
-    <h1>Venez découvrir le service mandatstore.com</h1>
-
-    <p>Mandats de vente ou de location en ligne. Réutilisables à l'infini, disponibles directement et immédiatement sur votre pc. Mandats simples ou exclusifs.</p>
-    <p>Ne perdez plus de temps grâce à <a href="https://mandatstore.com">https://mandatstore.com</a></p>
+    <p>
+        Sur ce site, vous trouverez vos Mandats de vente ou de location en ligne, simples ou exclusifs.<br/>
+        Réutilisables à l'infini, disponibles directement et immédiatement sur votre pc par téléchargement.<br/>
+        Ne perdez plus de temps grâce à <a href="{{ url('welcome') }}">{{ url('welcome') }}</a>
+    </p>
+    <p>
+        MANDAT DE VENTE SIMPLE OU EXCLUSIF<br/>
+        MANDAT DE LOCATION SIMPLE OU EXCLUSIF<br/>
+        MANDAT DE RECHERCHE ACQUEREURS<br/>
+        MANDAT DE RECHERCHE LOCATAIRE<br/>
+        MANDAT DE VENTE FONDS DE COMMERCE<br/>
+    </p>
 {% endblock %}
