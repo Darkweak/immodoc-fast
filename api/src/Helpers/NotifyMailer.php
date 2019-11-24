@@ -6,18 +6,21 @@ namespace App\Helpers;
 
 class NotifyMailer extends Mailer
 {
-    public function notify(string $id): void
+    public function notify(): void
     {
-        $this->sendWithoutTemplate(
-            'notifications@mandatstore.com'
+        $this->send(
+            'notifications@mandatstore.com',
+            'notifications@mandatstore.com',
+            'Découvrez le service mandatstore.com',
+            'notify'
         );
     }
 
     public function testNotify() {
         $this->send(
             'test-notifications@mandatstore.com',
-            'sylvaincombraque@hotmail.fr',
-            '',
+            'test-notifications@mandatstore.com',
+            'Découvrez le service mandatstore.com',
             'notify'
         );
     }

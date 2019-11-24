@@ -6,6 +6,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import axios from 'axios/index';
 import { Button, TextField } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
+import './email.css';
 
 const handleUpdateEmail = async (content, name, id) => {
   try {
